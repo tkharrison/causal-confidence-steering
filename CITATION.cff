@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this code or dataset, please cite the accompanying paper."
+title: "Causal Confidence Steering Suppresses Metacognitive Error Detection"
+type: software
+license: MIT
+repository-code: "https://github.com/tkharrison/causal-confidence-steering"
+authors:
+  - family-names: Harrison
+    given-names: Trevor
+version: 1.0.0
+date-released: 2026-08-16
+keywords:
+  - metacognition
+  - mechanistic interpretability
+  - activation steering
+  - confidence
+  - error detection

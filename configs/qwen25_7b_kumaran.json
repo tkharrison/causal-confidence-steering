@@ -1,0 +1,21 @@
+{
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "dataset_name": "mandarjoshi/trivia_qa",
+  "dataset_config": "rc",
+  "split": "validation",
+  "limit": 3000,
+  "seed": 42,
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "layers": "all",
+  "positions": [
+    "panl",
+    "panl_plus_1",
+    "confidence_colon",
+    "last_answer"
+  ],
+  "answer_max_new_tokens": 48,
+  "output_dir": "/results/activations/qwen25-7b-triviaqa-kumaran-v1",
+  "sample_data": false
+}

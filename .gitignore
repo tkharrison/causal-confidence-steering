@@ -1,0 +1,27 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Model and dataset caches
+.cache/
+huggingface/
+models/
+
+# Local or downloaded raw artifacts; publish the prepared archive as a Release asset
+release-assets/
+results/raw/
+data/stimuli/*.jsonl
+
+# Generated analysis figures may be regenerated; the two frozen paper figures are tracked
+figures/generated/

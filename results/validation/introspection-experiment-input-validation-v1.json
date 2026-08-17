@@ -1,0 +1,19 @@
+{
+  "status": "ok",
+  "protocol_version": "panl_introspection_v1",
+  "total": 300,
+  "condition_counts": {
+    "definite_false": 100,
+    "definite_correct": 100,
+    "ambiguous": 100
+  },
+  "all_ids_unique": true,
+  "all_options_four_and_unique": true,
+  "measures": [
+    "anomaly_forced_choice",
+    "anomaly_continuous",
+    "confidence_manipulation_check",
+    "error_detection",
+    "wager_abstention"
+  ]
+}
