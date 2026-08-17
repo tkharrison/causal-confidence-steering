@@ -9,10 +9,14 @@ from typing import Any, Callable, Iterable, Sequence
 from .ambigqa_dataset import CHOICE_LABELS, forced_choice_prompt
 from .introspection_protocol import (
     BINARY_MEASURES,
+    CONDITION_NAMES,
+    CONTROL_MEASURE_NAMES,
+    CONTROL_PROTOCOL_VERSION,
     PROTOCOL_VERSION,
     canonical_hash,
     measurement_prompt,
     parse_zero_to_one_hundred,
+    select_condition_names,
     select_measure_names,
     stable_seed,
 )
@@ -446,11 +450,12 @@ def _common_result(
     suffix_ids: list[int],
     input_ids: list[int],
     intervention_tracker: dict[str, int],
+    protocol_version: str = PROTOCOL_VERSION,
 ) -> dict[str, Any]:
     return {
         "trial_id": f"{resolved['stimulus_id']}|alpha={alpha:g}|measure={measure}",
         "run_signature": run_signature,
-        "protocol_version": PROTOCOL_VERSION,
+        "protocol_version": protocol_version,
         "stimulus_id": resolved["stimulus_id"],
         "source_id": resolved["source_id"],
         "condition": resolved["condition"],
@@ -507,6 +512,7 @@ def run_introspection_experiment(
     direction_position: str = "panl",
     alphas: Sequence[float] = (0.0, 5.0, 10.0, 15.0),
     measures: str | Sequence[str] = "all",
+    conditions: str | Sequence[str] = "all",
     limit: int | None = None,
     per_condition_limit: int | None = None,
     batch_size: int = 8,
@@ -522,6 +528,7 @@ def run_introspection_experiment(
     if batch_size < 1:
         raise ValueError("batch_size must be positive")
     measure_names = select_measure_names(measures)
+    condition_names = select_condition_names(conditions)
     alpha_values = tuple(dict.fromkeys(float(value) for value in alphas))
     if not alpha_values:
         raise ValueError("At least one alpha is required")
@@ -529,12 +536,14 @@ def run_introspection_experiment(
 
     definite = load_jsonl(definite_file)
     ambiguous = load_jsonl(ambiguous_file)
-    stimuli = definite + ambiguous
+    stimuli = [
+        row for row in definite + ambiguous if row["condition"] in condition_names
+    ]
     if len({row["stimulus_id"] for row in stimuli}) != len(stimuli):
         raise ValueError("Stimulus IDs must be unique across input files")
     if per_condition_limit is not None and per_condition_limit > 0:
         selected: list[dict[str, Any]] = []
-        for condition in ("definite_correct", "definite_false", "ambiguous"):
+        for condition in condition_names:
             group = [row for row in stimuli if row["condition"] == condition]
             random.Random(stable_seed(seed, condition, "condition_sample")).shuffle(group)
             if len(group) < per_condition_limit:
@@ -557,8 +566,14 @@ def run_introspection_experiment(
     with safe_open(str(direction_file), framework="pt", device="cpu") as handle:
         direction_metadata = dict(handle.metadata() or {})
 
+    is_control_run = (
+        any(value < 0 for value in alpha_values)
+        or any(measure in CONTROL_MEASURE_NAMES for measure in measure_names)
+        or condition_names != CONDITION_NAMES
+    )
+    protocol_version = CONTROL_PROTOCOL_VERSION if is_control_run else PROTOCOL_VERSION
     manifest_payload = {
-        "protocol_version": PROTOCOL_VERSION,
+        "protocol_version": protocol_version,
         "model_id": model_id,
         "model_revision": revision,
         "device_dtype": dtype,
@@ -568,6 +583,7 @@ def run_introspection_experiment(
         "layer_id": layer_id,
         "alphas": list(alpha_values),
         "measures": list(measure_names),
+        "conditions": list(condition_names),
         "measurement_prompt_hashes": {
             measure: canonical_hash([
                 measurement_prompt(row["stimulus_id"], measure, seed=seed)
@@ -671,6 +687,7 @@ def run_introspection_experiment(
                         suffix_ids=suffix_ids,
                         input_ids=input_ids,
                         intervention_tracker=tracker,
+                        protocol_version=protocol_version,
                     )
                     parsed = parse_zero_to_one_hundred(generated_row["generated_text"])
                     output_rows.append({
@@ -706,6 +723,7 @@ def run_introspection_experiment(
                         suffix_ids=suffix_ids,
                         input_ids=input_ids,
                         intervention_tracker=tracker,
+                        protocol_version=protocol_version,
                     )
                     if measure == "confidence_manipulation_check":
                         result = _candidate_result(row_logits, token_ids=confidence_tokens)
@@ -745,7 +763,7 @@ def run_introspection_experiment(
         key = f"{row['condition']}|alpha={float(row['alpha']):g}|{row['measure']}"
         counts[key] = counts.get(key, 0) + 1
     return {
-        "protocol_version": PROTOCOL_VERSION,
+        "protocol_version": protocol_version,
         "run_signature": run_signature,
         "stimuli": len(stimuli),
         "conditions": {

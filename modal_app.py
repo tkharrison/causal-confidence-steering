@@ -70,7 +70,7 @@ def validate_setup() -> dict[str, object]:
     assert ExperimentConfig.from_dict(config.to_dict()).to_dict() == config.to_dict()
     assert len(CONFIDENCE_CLASSES) == 10
     assert confidence_instructions().endswith("**Confidence**:")
-    for measure in introspection_protocol.MEASURE_NAMES:
+    for measure in introspection_protocol.SUPPORTED_MEASURE_NAMES:
         suffix, _mapping = introspection_protocol.measurement_prompt(
             "validation-item", measure, seed=20260816
         )
@@ -87,6 +87,7 @@ def validate_setup() -> dict[str, object]:
         "experiment_modules_imported": True,
         "introspection_protocol_version": introspection_protocol.PROTOCOL_VERSION,
         "introspection_measures": list(introspection_protocol.MEASURE_NAMES),
+        "control_measures": list(introspection_protocol.CONTROL_MEASURE_NAMES),
     }
     target.write_text(json.dumps(payload, indent=2) + "\n")
     results_volume.commit()
@@ -107,7 +108,7 @@ def validate_introspection_runner(
     from safetensors import safe_open
     from transformers import AutoTokenizer
     from src.introspection_experiment import _resolved_row, _single_token_labels
-    from src.introspection_protocol import MEASURE_NAMES, measurement_prompt
+    from src.introspection_protocol import SUPPORTED_MEASURE_NAMES, measurement_prompt
     from src.model import class_first_token_ids, newline_token_ids
 
     definite_path = Path(RESULTS_PATH) / "datasets" / definite_name
@@ -194,10 +195,10 @@ def validate_introspection_runner(
         "sample_panl_index": resolved["panl_index"],
         "sample_panl_is_final_replay_token": resolved["panl_index"] == len(resolved["replay_through_panl_token_ids"]) - 1,
         "single_use_hook_applications": tracker["applications"],
-        "measures": list(MEASURE_NAMES),
+        "measures": list(SUPPORTED_MEASURE_NAMES),
         "measurement_prompts_nonempty": all(
             measurement_prompt(sample["stimulus_id"], measure, seed=20260816)[0]
-            for measure in MEASURE_NAMES
+            for measure in SUPPORTED_MEASURE_NAMES
         ),
     }
     target = Path(RESULTS_PATH) / "validation" / "introspection-runner-cpu-v1.json"
@@ -399,6 +400,7 @@ def run_introspection_experiment(
     layer: int = 15,
     alphas: str = "0,5,10,15",
     measures: str = "all",
+    conditions: str = "all",
     limit: int = 0,
     per_condition_limit: int = 0,
     batch_size: int = 8,
@@ -422,6 +424,7 @@ def run_introspection_experiment(
         layer_id=layer,
         alphas=tuple(float(value) for value in alphas.split(",")),
         measures=measures,
+        conditions=conditions,
         limit=None if limit <= 0 else limit,
         per_condition_limit=None if per_condition_limit <= 0 else per_condition_limit,
         batch_size=batch_size,

@@ -40,13 +40,29 @@ The model revision, direction checksum, stimulus checksums, prompt hashes, layer
 doses, measures, and seed are all frozen into the run manifest. The runner refuses to
 resume into a directory whose signature does not match.
 
+## Control-extension analysis
+
+After obtaining authorized local copies of the two control-run directories, run:
+
+```bash
+python3 scripts/analyze_control_extension.py \
+  --primary-dir results/raw/panl-introspection-100x3-v1 \
+  --negative-dir results/raw/panl-controls-negative-correct-100-v1 \
+  --polarity-dir results/raw/panl-controls-polarity-false-100-v1 \
+  --output-dir results/control/generated
+```
+
+The committed aggregate output is in `results/control/`. Raw control rows contain
+the frozen stimulus text and therefore follow the same redistribution restriction as
+the primary raw measurements.
+
 ## Expected integrity checks
 
 - 6,000 unique rows
 - 60 cells, each containing 100 observations
 - one run signature matching the manifest
 - PANL token ID 198 throughout
-- no hook at alpha zero and exactly one hook at every positive alpha
+- no hook at alpha zero and exactly one hook at every nonzero alpha
 - valid candidate-token argmaxes
 - no failed continuous-score parses
 - binary probabilities summing to one

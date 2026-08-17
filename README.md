@@ -17,6 +17,27 @@ increased by `+0.198` (95% CI `[0.168, 0.229]`), while `P(inconsistent)` decreas
 (`[-0.583, -0.416]`). The confidence increase occurred for 100/100 false-answer
 items; error detection decreased for 99/100.
 
+## Post-hoc response-channel controls
+
+Two controls were added after preliminary review. First, the 100 correct-answer
+items were extended through `alpha = -15, -10, -5`, then joined to their frozen
+`alpha = 0, 5, 10, 15` observations. Expected confidence increased from `0.584`
+to `0.778` across the full signed sweep. Exact inconsistency log-odds decreased
+from `5.791` to `-4.402`, and error-detection log-odds decreased from `7.249` to
+`-8.995`. All 100 items had negative full-range alarm slopes.
+
+Second, two matched Yes/No probes reversed only the question polarity. On false
+answers, `alpha = 15` decreased Yes log-odds by `-3.868` when Yes meant
+inconsistent, but increased them by `+2.611` when Yes meant consistent. The paired
+polarity interaction was `+6.479` (95% CI `[5.841, 7.116]`). This rules out a
+literal default-No response bias and, together with the signed sweep, rules out a
+direction-agnostic perturbation-magnitude account. These controls are post-hoc and
+do not establish that the direction encodes only confidence rather than a broader
+confidence/commitment-related stance.
+
+Aggregate results are in [results/control](results/control); the raw stimulus-bearing
+rows remain withheld under the repository's data policy.
+
 ![Dose-response results](figures/figure-2-dose-response.png)
 
 ## Frozen scientific contract
@@ -94,6 +115,22 @@ Launch or safely resume the frozen primary run:
 
 The same run name cannot be reused with changed inputs or parameters. A manifest
 signature prevents incompatible rows from being mixed.
+
+The two post-hoc control runs use separate immutable run names:
+
+```bash
+.venv/bin/modal run modal_app.py::run_introspection_experiment \
+  --run-name panl-controls-negative-correct-100-v1 \
+  --conditions definite_correct \
+  --alphas=-15,-10,-5 \
+  --measures confidence_manipulation_check,anomaly_forced_choice,error_detection
+
+.venv/bin/modal run modal_app.py::run_introspection_experiment \
+  --run-name panl-controls-polarity-false-100-v1 \
+  --conditions definite_false \
+  --alphas 0,15 \
+  --measures inconsistency_yes_no,consistency_yes_no
+```
 
 ## Reproduce the analysis
 

@@ -145,10 +145,10 @@ def validate(
             for row in rows
             if float(row["alpha"]) == 0.0
         ),
-        "positive_alpha_has_one_hook": all(
+        "nonzero_alpha_has_one_hook": all(
             row["intervention_application_count"] == 1 and row["intervention_applied"]
             for row in rows
-            if float(row["alpha"]) > 0.0
+            if float(row["alpha"]) != 0.0
         ),
         "all_binary_and_confidence_argmaxes_valid": all(
             row["global_argmax_is_candidate"] for row in binary_rows + categorical_rows
@@ -320,7 +320,7 @@ def make_report(integrity: dict[str, Any], result: dict[str, Any]) -> str:
         "",
         f"All integrity checks passed: {integrity['rows']:,} unique measurement rows, "
         f"{integrity['cells']} complete cells, 100 observations per cell, no parse failures, "
-        "PANL token 198 throughout, and exactly one intervention application at every positive alpha.",
+        "PANL token 198 throughout, and exactly one intervention application at every nonzero alpha.",
         "",
         "All outcomes below are oriented so larger values mean more confidence, more perceived "
         "inconsistency/unusualness, more error detection, or more abstention. Confidence intervals "

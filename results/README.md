@@ -25,3 +25,12 @@ the embedded dataset-derived stimulus text may be redistributed.
 The `validation/` directory records input validation, CPU runner validation, causal
 steering validation, the dose-selection rationale, and the frozen experimental
 runbook.
+
+`control/` contains the aggregate post-hoc negative-alpha, polarity-pair, and exact
+item-level log-odds analyses. It contains no question or answer text. The two raw
+control measurement files are locally identified by SHA-256:
+
+```text
+07c08886773822946236b428f8d2a999ea21c8bf74269856cde0d7788d5789db  negative-correct measurements
+421d222169d1b056e49253a6e475cab5285b874a880ac640199758540b244750  polarity-false measurements
+```

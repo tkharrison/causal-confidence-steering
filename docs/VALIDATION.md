@@ -28,3 +28,24 @@ Release archive:
 ```text
 e7b26555193ec9d4d9377411d7d1d7c85cdf83e6b701bb0f9489ff9cb84de310  causal-confidence-steering-v1.0-artifacts.tar.gz
 ```
+
+## Post-hoc control extension
+
+Validated and completed on 2026-08-17:
+
+- six control-aware protocol tests passed locally;
+- Modal CPU validation passed with the real tokenizer, direction, and frozen inputs;
+- one-item L4 smokes produced exactly 9/9 negative-sweep rows and 4/4 polarity rows;
+- the full runs produced exactly 900 and 400 unique rows;
+- alpha zero had no hook and every nonzero alpha had exactly one hook application;
+- all restricted candidate argmaxes were valid;
+- the combined analysis matched the same 100 correct and 100 false stimulus IDs used
+  in the primary run; and
+- the aggregate public analysis contains no question or answer text.
+
+Raw local control checksums:
+
+```text
+07c08886773822946236b428f8d2a999ea21c8bf74269856cde0d7788d5789db  negative-correct measurements
+421d222169d1b056e49253a6e475cab5285b874a880ac640199758540b244750  polarity-false measurements
+```
