@@ -28,6 +28,8 @@ This manifest records why each category is present in the curated repository.
 ### Analysis
 
 - `analyze_full_introspection_results.py` is the authoritative final analysis.
+- `analyze_control_extension.py` is the authoritative post-hoc signed-sweep,
+  polarity-pair, and exact log-odds analysis.
 - `analyze_introspection_experiment.py` is retained as the original tidy-export and
   early paired-analysis utility used immediately after collection.
 - `plot_results.py` contains the figure code extracted from the manuscript builder.
@@ -36,7 +38,8 @@ This manifest records why each category is present in the curated repository.
 ### Frozen artifacts
 
 - The direction tensor and metadata, run manifest, compact numeric analysis,
-  validation reports, final figures, and exact stimulus checksums are included.
+  aggregate control analysis, validation reports, final figures, and exact stimulus
+  checksums are included.
 - Exact dataset-derived stimulus text and raw measurements are withheld pending
   confirmation of redistribution permission.
 

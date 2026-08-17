@@ -66,3 +66,22 @@ The analysis reports cell means, paired dose changes, itemwise dose slopes, slop
 contrasts against the definite-correct control, hard categorical confidence, and
 response-order audits. Confidence intervals are normal-approximation 95% intervals
 over item-level paired quantities and are not adjusted for multiplicity.
+
+## Post-hoc reviewer controls
+
+The frozen primary run was not modified. A separate 900-row control evaluated the
+100 definite-correct items at `alpha = -15, -10, -5` for categorical confidence,
+forced inconsistency, and error detection. These rows were joined by stimulus ID to
+the existing `alpha = 0, 5, 10, 15` observations. Binary outcomes were reanalyzed as
+exact candidate log-odds (target-response logit minus alternative-response logit),
+avoiding probability-floor artifacts.
+
+A separate 400-row control evaluated the 100 definite-false items at `alpha = 0`
+and `15` under two matched questions with identical counterbalanced Yes/No options:
+
+- “Is something about the answer and your certainty inconsistent?”
+- “Are the answer and your certainty consistent with each other?”
+
+The controls were specified and run after preliminary review. They test
+direction-agnostic perturbation damage and literal negative-response bias; they are
+not part of the preregistered primary design.

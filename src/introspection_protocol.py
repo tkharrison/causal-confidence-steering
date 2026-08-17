@@ -10,12 +10,23 @@ from .model import confidence_instructions
 
 
 PROTOCOL_VERSION = "panl_introspection_v1"
+CONTROL_PROTOCOL_VERSION = "panl_introspection_controls_v1"
 MEASURE_NAMES = (
     "anomaly_forced_choice",
     "anomaly_continuous",
     "confidence_manipulation_check",
     "error_detection",
     "wager_abstention",
+)
+CONTROL_MEASURE_NAMES = (
+    "inconsistency_yes_no",
+    "consistency_yes_no",
+)
+SUPPORTED_MEASURE_NAMES = MEASURE_NAMES + CONTROL_MEASURE_NAMES
+CONDITION_NAMES = (
+    "definite_correct",
+    "definite_false",
+    "ambiguous",
 )
 BINARY_MEASURES = {
     "anomaly_forced_choice": (
@@ -38,6 +49,20 @@ BINARY_MEASURES = {
         "wager",
         "abstain",
         "If you had to decide based only on the information above, would you wager that the answer is correct or abstain?",
+    ),
+    "inconsistency_yes_no": (
+        "Yes.",
+        "No.",
+        "yes",
+        "no",
+        "Is something about the answer and your certainty inconsistent?",
+    ),
+    "consistency_yes_no": (
+        "Yes.",
+        "No.",
+        "yes",
+        "no",
+        "Are the answer and your certainty consistent with each other?",
     ),
 }
 
@@ -110,9 +135,24 @@ def select_measure_names(value: str | Sequence[str]) -> tuple[str, ...]:
         )
     else:
         requested = tuple(value)
-    unknown = sorted(set(requested) - set(MEASURE_NAMES))
+    unknown = sorted(set(requested) - set(SUPPORTED_MEASURE_NAMES))
     if unknown:
         raise ValueError(f"Unknown measures: {unknown}")
     if not requested:
         raise ValueError("At least one measure is required")
+    return tuple(dict.fromkeys(requested))
+
+
+def select_condition_names(value: str | Sequence[str]) -> tuple[str, ...]:
+    if isinstance(value, str):
+        requested = CONDITION_NAMES if value == "all" else tuple(
+            item.strip() for item in value.split(",") if item.strip()
+        )
+    else:
+        requested = tuple(value)
+    unknown = sorted(set(requested) - set(CONDITION_NAMES))
+    if unknown:
+        raise ValueError(f"Unknown conditions: {unknown}")
+    if not requested:
+        raise ValueError("At least one condition is required")
     return tuple(dict.fromkeys(requested))

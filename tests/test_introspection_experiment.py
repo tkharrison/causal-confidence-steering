@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 from src.introspection_protocol import (
+    CONTROL_MEASURE_NAMES,
     MEASURE_NAMES,
+    SUPPORTED_MEASURE_NAMES,
     measurement_prompt,
     parse_zero_to_one_hundred,
+    select_condition_names,
     shuffled_binary_mapping,
 )
 
@@ -32,6 +35,31 @@ def test_binary_order_is_deterministic_and_counterbalanced() -> None:
         for index in range(1000)
     ]
     assert 400 < mappings.count("consistent") < 600
+
+
+def test_polarity_controls_are_a_matched_yes_no_pair() -> None:
+    assert CONTROL_MEASURE_NAMES == (
+        "inconsistency_yes_no",
+        "consistency_yes_no",
+    )
+    prompts = {
+        name: measurement_prompt("item-1", name, seed=42)
+        for name in CONTROL_MEASURE_NAMES
+    }
+    assert set(SUPPORTED_MEASURE_NAMES) == set(MEASURE_NAMES) | set(CONTROL_MEASURE_NAMES)
+    assert "inconsistent?" in prompts["inconsistency_yes_no"][0]
+    assert "consistent with each other?" in prompts["consistency_yes_no"][0]
+    for _suffix, mapping in prompts.values():
+        assert mapping is not None
+        assert set(mapping.values()) == {"yes", "no"}
+
+
+def test_condition_selection_is_explicit_and_ordered() -> None:
+    assert select_condition_names("definite_correct") == ("definite_correct",)
+    assert select_condition_names("definite_false,definite_correct") == (
+        "definite_false",
+        "definite_correct",
+    )
 
 
 def test_continuous_parser_accepts_only_bounded_integer() -> None:

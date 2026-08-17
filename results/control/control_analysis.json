@@ -1,0 +1,441 @@
+{
+  "analysis_version": "panl_control_extension_v1",
+  "primary_log_odds": {
+    "condition_changes": {
+      "definite_correct|anomaly_forced_choice": {
+        "n": 100,
+        "mean": -0.41,
+        "ci95": [
+          -0.5890270432706249,
+          -0.230972956729375
+        ],
+        "positive_items": 22,
+        "negative_items": 69,
+        "unchanged_items": 9
+      },
+      "definite_correct|error_detection": {
+        "n": 100,
+        "mean": -1.28625,
+        "ci95": [
+          -1.5514134363077712,
+          -1.0210865636922286
+        ],
+        "positive_items": 6,
+        "negative_items": 93,
+        "unchanged_items": 1
+      },
+      "definite_false|anomaly_forced_choice": {
+        "n": 100,
+        "mean": -4.77125,
+        "ci95": [
+          -5.286569019828465,
+          -4.255930980171535
+        ],
+        "positive_items": 0,
+        "negative_items": 100,
+        "unchanged_items": 0
+      },
+      "definite_false|error_detection": {
+        "n": 100,
+        "mean": -7.35,
+        "ci95": [
+          -8.204578356071968,
+          -6.495421643928032
+        ],
+        "positive_items": 0,
+        "negative_items": 99,
+        "unchanged_items": 1
+      },
+      "ambiguous|anomaly_forced_choice": {
+        "n": 100,
+        "mean": -1.64125,
+        "ci95": [
+          -1.9321120820643838,
+          -1.3503879179356164
+        ],
+        "positive_items": 11,
+        "negative_items": 86,
+        "unchanged_items": 3
+      },
+      "ambiguous|error_detection": {
+        "n": 100,
+        "mean": -4.21125,
+        "ci95": [
+          -4.703086471422374,
+          -3.719413528577625
+        ],
+        "positive_items": 0,
+        "negative_items": 99,
+        "unchanged_items": 1
+      }
+    },
+    "contrasts": {
+      "definite_false_minus_definite_correct|anomaly_forced_choice": {
+        "n_first": 100,
+        "n_second": 100,
+        "mean": -4.36125,
+        "ci95": [
+          -4.9067812772144155,
+          -3.815718722785584
+        ]
+      },
+      "ambiguous_minus_definite_correct|anomaly_forced_choice": {
+        "n_first": 100,
+        "n_second": 100,
+        "mean": -1.2312500000000002,
+        "ci95": [
+          -1.5727927250067708,
+          -0.8897072749932295
+        ]
+      },
+      "definite_false_minus_definite_correct|error_detection": {
+        "n_first": 100,
+        "n_second": 100,
+        "mean": -6.06375,
+        "ci95": [
+          -6.9585213756157,
+          -5.1689786243843
+        ]
+      },
+      "ambiguous_minus_definite_correct|error_detection": {
+        "n_first": 100,
+        "n_second": 100,
+        "mean": -2.925,
+        "ci95": [
+          -3.483761812023475,
+          -2.3662381879765246
+        ]
+      }
+    }
+  },
+  "negative_sweep": {
+    "alphas": [
+      -15.0,
+      -10.0,
+      -5.0,
+      0.0,
+      5.0,
+      10.0,
+      15.0
+    ],
+    "measures": {
+      "confidence_manipulation_check": {
+        "scale": "expected confidence",
+        "expected_direction": "increasing",
+        "cells": {
+          "alpha=-15": {
+            "mean": 0.5835342321046545
+          },
+          "alpha=-10": {
+            "mean": 0.7038842965926873
+          },
+          "alpha=-5": {
+            "mean": 0.7407159572353159
+          },
+          "alpha=0": {
+            "mean": 0.7563451417613404
+          },
+          "alpha=5": {
+            "mean": 0.7665155485649331
+          },
+          "alpha=10": {
+            "mean": 0.773859519983169
+          },
+          "alpha=15": {
+            "mean": 0.7783596182145084
+          }
+        },
+        "change_0_minus_negative15": {
+          "n": 100,
+          "mean": 0.17281090965668594,
+          "ci95": [
+            0.13674005573746872,
+            0.20888176357590316
+          ],
+          "positive_items": 92,
+          "negative_items": 8,
+          "unchanged_items": 0
+        },
+        "change_positive15_minus_negative15": {
+          "n": 100,
+          "mean": 0.19482538610985387,
+          "ci95": [
+            0.15829139238169,
+            0.23135937983801774
+          ],
+          "positive_items": 98,
+          "negative_items": 2,
+          "unchanged_items": 0
+        },
+        "linear_slope_per_alpha": {
+          "n": 100,
+          "mean": 0.005358758546001017,
+          "ci95": [
+            0.004416432537558045,
+            0.006301084554443989
+          ],
+          "positive_items": 99,
+          "negative_items": 1,
+          "unchanged_items": 0
+        }
+      },
+      "anomaly_forced_choice": {
+        "scale": "exact alarm log-odds",
+        "expected_direction": "decreasing",
+        "cells": {
+          "alpha=-15": {
+            "mean": 5.79125
+          },
+          "alpha=-10": {
+            "mean": 2.295
+          },
+          "alpha=-5": {
+            "mean": -1.8425
+          },
+          "alpha=0": {
+            "mean": -3.9925
+          },
+          "alpha=5": {
+            "mean": -4.74625
+          },
+          "alpha=10": {
+            "mean": -4.83375
+          },
+          "alpha=15": {
+            "mean": -4.4025
+          }
+        },
+        "change_0_minus_negative15": {
+          "n": 100,
+          "mean": -9.78375,
+          "ci95": [
+            -10.256312688134782,
+            -9.311187311865217
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "change_positive15_minus_negative15": {
+          "n": 100,
+          "mean": -10.19375,
+          "ci95": [
+            -10.683222285278294,
+            -9.704277714721705
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "linear_slope_per_alpha": {
+          "n": 100,
+          "mean": -0.34101785714285715,
+          "ci95": [
+            -0.3574915498915331,
+            -0.3245441643941812
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "alarm_probability_cells": {
+          "alpha=-15": {
+            "mean": 0.9522181063052266
+          },
+          "alpha=-10": {
+            "mean": 0.6920389091302058
+          },
+          "alpha=-5": {
+            "mean": 0.3974022606617655
+          },
+          "alpha=0": {
+            "mean": 0.18423550846386205
+          },
+          "alpha=5": {
+            "mean": 0.10610844835177886
+          },
+          "alpha=10": {
+            "mean": 0.09779513022011997
+          },
+          "alpha=15": {
+            "mean": 0.14859441459706432
+          }
+        }
+      },
+      "error_detection": {
+        "scale": "exact alarm log-odds",
+        "expected_direction": "decreasing",
+        "cells": {
+          "alpha=-15": {
+            "mean": 7.24875
+          },
+          "alpha=-10": {
+            "mean": 0.90125
+          },
+          "alpha=-5": {
+            "mean": -5.12
+          },
+          "alpha=0": {
+            "mean": -7.70875
+          },
+          "alpha=5": {
+            "mean": -8.6675
+          },
+          "alpha=10": {
+            "mean": -8.9875
+          },
+          "alpha=15": {
+            "mean": -8.995
+          }
+        },
+        "change_0_minus_negative15": {
+          "n": 100,
+          "mean": -14.9575,
+          "ci95": [
+            -15.580119491675406,
+            -14.334880508324593
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "change_positive15_minus_negative15": {
+          "n": 100,
+          "mean": -16.24375,
+          "ci95": [
+            -16.830628850123446,
+            -15.65687114987655
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "linear_slope_per_alpha": {
+          "n": 100,
+          "mean": -0.5146875,
+          "ci95": [
+            -0.5409418761082958,
+            -0.48843312389170407
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "alarm_probability_cells": {
+          "alpha=-15": {
+            "mean": 0.9657782121933997
+          },
+          "alpha=-10": {
+            "mean": 0.5504456215807295
+          },
+          "alpha=-5": {
+            "mean": 0.15606037913633372
+          },
+          "alpha=0": {
+            "mean": 0.01982632044041793
+          },
+          "alpha=5": {
+            "mean": 0.01155513383341713
+          },
+          "alpha=10": {
+            "mean": 0.009653414808815342
+          },
+          "alpha=15": {
+            "mean": 0.010213449737934753
+          }
+        }
+      }
+    }
+  },
+  "polarity_control": {
+    "measures": {
+      "inconsistency_yes_no": {
+        "alarm_response": "yes",
+        "alarm_probability_change_15_minus_0": {
+          "n": 100,
+          "mean": -0.5442064348328859,
+          "ci95": [
+            -0.6006772485961702,
+            -0.4877356210696015
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "alarm_log_odds_change_15_minus_0": {
+          "n": 100,
+          "mean": -3.8675,
+          "ci95": [
+            -4.212576391923045,
+            -3.522423608076956
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        },
+        "yes_log_odds_change_15_minus_0": {
+          "n": 100,
+          "mean": -3.8675,
+          "ci95": [
+            -4.212576391923045,
+            -3.522423608076956
+          ],
+          "positive_items": 0,
+          "negative_items": 100,
+          "unchanged_items": 0
+        }
+      },
+      "consistency_yes_no": {
+        "alarm_response": "no",
+        "alarm_probability_change_15_minus_0": {
+          "n": 100,
+          "mean": -0.14729766625416232,
+          "ci95": [
+            -0.2002102121292798,
+            -0.09438512037904484
+          ],
+          "positive_items": 1,
+          "negative_items": 98,
+          "unchanged_items": 1
+        },
+        "alarm_log_odds_change_15_minus_0": {
+          "n": 100,
+          "mean": -2.61125,
+          "ci95": [
+            -3.0227912942141217,
+            -2.1997087057858784
+          ],
+          "positive_items": 1,
+          "negative_items": 98,
+          "unchanged_items": 1
+        },
+        "yes_log_odds_change_15_minus_0": {
+          "n": 100,
+          "mean": 2.61125,
+          "ci95": [
+            2.1997087057858784,
+            3.0227912942141217
+          ],
+          "positive_items": 98,
+          "negative_items": 1,
+          "unchanged_items": 1
+        }
+      }
+    },
+    "polarity_interaction_consistency_minus_inconsistency_yes_log_odds": {
+      "n": 100,
+      "mean": 6.47875,
+      "ci95": [
+        5.84138788555936,
+        7.116112114440639
+      ],
+      "positive_items": 99,
+      "negative_items": 1,
+      "unchanged_items": 0
+    },
+    "interpretive_key": {
+      "semantic_confidence_prediction": "inconsistency yes-log-odds decrease; consistency yes-log-odds increase",
+      "literal_no_bias_prediction": "yes-log-odds decrease for both wordings"
+    }
+  }
+}
